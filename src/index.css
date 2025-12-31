@@ -1,0 +1,42 @@
+/* 🧩 4. Tailwind + DaisyUI layers */
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🧩 5. DaisyUI plugin */
+@import "tw-animate-css";
+@plugin "daisyui" {
+  themes: all;
+}
+
+/* 🧩 6. DaisyUI-specific adjustments */
+[data-theme="luxury"] .logo-invert,
+[data-theme="corporate"] .logo-invert,
+[data-theme="cupcake"] .logo-invert,
+[data-theme="bumblebee"] .logo-invert,
+[data-theme="emerald"] .logo-invert,
+[data-theme="fantasy"] .logo-invert,
+[data-theme="wireframe"] .logo-invert,
+[data-theme="cmyk"] .logo-invert,
+[data-theme="autumn"] .logo-invert,
+[data-theme="business"] .logo-invert,
+[data-theme="acid"] .logo-invert,
+[data-theme="lemonade"] .logo-invert,
+[data-theme="winter"] .logo-invert {
+  filter: invert(1) hue-rotate(180deg) saturate(1.2);
+}
+
+/* Preserve teal color specifically */
+.logo-invert {
+  filter: contrast(1.1) brightness(1.1);
+}
+
+/* 🧩 7. Button color fallback */
+.btn-primary {
+  --btn-color: var(--color-primary);
+  --btn-fg: var(--color-primary-content);
+}
+:root {
+  --color-primary: var(--primary);
+}
