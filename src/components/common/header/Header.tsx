@@ -3,6 +3,7 @@ import img from "../../../assets/img/logo2-while-2.png";
 import { Bell } from "lucide-react";
 import ThemeSwitcher from "../buttons/ThemeSwitcher";
 import DataService from "@/common/DataService/DataService";
+import { apiSubRoutes } from "@/common/DataService/Constants";
 // import { log } from "console";
 // import axios from "axios";
 
@@ -65,7 +66,7 @@ function Header() {
     <>
       <DataService
         enable={enableDataFetch}
-        url="/Employee/GetEmployeeById"
+        url={apiSubRoutes.GET_EMPLOYEE_BY_ID}
         parameter={{}}
         onSuccess={(data) => {
           const result = data.result || data;

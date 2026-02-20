@@ -32,6 +32,7 @@ function BasicInfoSection({ data }: BasicInfoSectionProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               label="Employee ID"
+              type="text"
               value={data.employeeId}
               disabled
               onChange={() => {}}
@@ -45,12 +46,14 @@ function BasicInfoSection({ data }: BasicInfoSectionProps) {
             />
             <FormField
               label="First Name"
+              type="text"
               value={data.firstName}
               disabled
               onChange={() => {}}
             />
             <FormField
               label="Last Name"
+              type="text"
               value={data.lastName}
               disabled
               onChange={() => {}}

@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { Camera, Upload, Loader2, CheckCircle, XCircle } from "lucide-react";
 import ProfileImage from "@/components/common/cards/ProfileImage";
+import { apiSubRoutes } from "@/common/DataService/Constants";
+import { runtimeConfig } from "@/config/runtime-config";
 
 interface UploadProfilePhotoProps {
   empId: string;
@@ -25,7 +27,6 @@ export default function UploadProfilePhoto({
   const [key, setKey] = useState<number>(0);
   const [hasImage, setHasImage] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -63,8 +64,9 @@ export default function UploadProfilePhoto({
       formData.append("empId", empId);
       formData.append("profile", file);
 
+      const baseUrl = runtimeConfig.backendUrl;
       const response = await fetch(
-        "https://people-dev.clarium.tech/emsapi/api/Employee/UploadProfile",
+        `${baseUrl}/${apiSubRoutes.UPLOAD_PROFILE}`,
         {
           method: "POST",
           credentials: "include",

@@ -27,8 +27,8 @@ _mf_temp/
 # .env.test.local
 # .env.production.local
 
-.vscode/*
-!.vscode/extensions.json
+.vscode/
+.history/
 .idea/
 .DS_Store
 Thumbs.db

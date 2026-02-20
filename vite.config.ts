@@ -1,22 +1,17 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { federation } from "@module-federation/vite";
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 
-// export default defineConfig(({ }) => {
-  // load .env files for the given mode if you need them
-  // const env = loadEnv(mode, process.cwd());
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
 
-  // const base =
-  //   mode === "production"
-  //     ? process.env.VITE_BASE || env.VITE_BASE || "/emsui/"
-  //     : "http://localhost:4202/";
-  export default defineConfig(() => {
-    const base = "http://localhost:4202/"
+  const base = env.VITE_REMOTE_BASE_URL;
 
-  // const entry = "https://people-dev.clarium.tech/orgui/remoteEntry.js";
-  const entry = "http://localhost:4206/remoteEntry.js";
+  const entry = "https://people-dev.clarium.tech/orgui/remoteEntry.js";
+
+
 
   return {
     base,
@@ -43,15 +38,7 @@ import tailwindcss from "@tailwindcss/vite";
         },
       }),
     ],
-    server: {
-      port: 4202,
-      cors: {
-        origin: "*", // allow Angular host to load it
-      },
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
+
     preview: {
       port: 4202,
     },

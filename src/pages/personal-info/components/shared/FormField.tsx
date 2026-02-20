@@ -12,7 +12,7 @@ export function FormField({
   onChange,
 }: FormFieldProps) {
   const gridClasses = className.includes("col-span") ? className : `${className}`;
-  const inputSize = type === "tel" || type === "number" || label.includes("ID") || label.includes("Code") ? "max-w-xs" : "w-full";
+  const inputSize = type === "tel" || type === "number" || label.includes("ID") || label.includes("Code")  || label.includes("text") ? "w-full" :"w-full" ;
 
   const renderInput = () => {
     if (options) {

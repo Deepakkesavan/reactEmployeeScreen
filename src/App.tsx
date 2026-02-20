@@ -4,7 +4,7 @@ import { EmployeeProvider } from "./contexts/EmployeeContext";
 function App() {
   return (
     <EmployeeProvider>
-      <div>
+      <div id="ems-root">
         <WelcomePage />
       </div>
     </EmployeeProvider>

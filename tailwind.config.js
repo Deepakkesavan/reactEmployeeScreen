@@ -1,5 +1,7 @@
 // /** @type {import('tailwindcss').Config} */
 export default {
+  prefix: "ems-",
+  important: "#ems-root",
   corePlugins: {
     preflight: false,
   },

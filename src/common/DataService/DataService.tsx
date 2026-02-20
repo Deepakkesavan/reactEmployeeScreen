@@ -1,15 +1,19 @@
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import { type DataServiceProps } from "@/common/DataService/interface/DataServiceInterface";
+import { runtimeConfig } from "@/config/runtime-config";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: runtimeConfig.backendUrl,
   withCredentials: true,
 });
-
 api.interceptors.request.use(
-  (config) => {
-    return config;
+  (req) => {
+    const accessToken = runtimeConfig.dummyJwtAccessToken;
+    if (accessToken) {
+      req.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return req;
   },
   (error) => Promise.reject(error)
 );

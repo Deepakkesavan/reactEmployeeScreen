@@ -1,8 +1,8 @@
 variables:
   PRIMARY_BRANCH: "main"
-  DEPLOY_REPO: 'git@gitlab.clarium.tech:clarium-edge/clarium-edge-apps-deploy.git'
+  DEPLOY_REPO: 'git@gitlab.clarium.tech:clarium-org-apps/workforce/workforce-apps-deploy.git'
   TARGET_BRANCH: "stage-dev"
-  MODULE: "employee-management-system"
+  MODULE: "employee-information-ui"
   SOURCE_DIRECTORY: "./dist"
   TARGET_DIRECTORY: "emsui"
 

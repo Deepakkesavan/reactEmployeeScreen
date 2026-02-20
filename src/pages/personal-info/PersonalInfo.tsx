@@ -13,6 +13,7 @@ import {
   type BackendEmployeeData,
   mapBackendToFrontend,
 } from "./interfaces/PersonalInfo.interface";
+import { apiSubRoutes } from "@/common/DataService/Constants";
 
 function PersonalInfo() {
   const basicRef = useRef<HTMLDivElement>(null);
@@ -97,7 +98,7 @@ function PersonalInfo() {
 
         <DataService
           enable={enableDataFetch}
-          url="/Employee/GetEmployeeById"
+          url={apiSubRoutes.GET_EMPLOYEE_BY_ID}
           parameter={apiParameter}
           onSuccess={(data) => {
             const backendData = data.result || data;
@@ -130,7 +131,7 @@ function PersonalInfo() {
 
         {employeeData && (
           <>
-            <div className="sticky top-0 z-[5] bg-base-100 pb-4 border-b border-base-200 transition-transform duration-200 ease-out">
+            <div className="sticky top-0 z-[5] backdrop-blur-3xl pb-4 border-b border-base-200 transition-transform duration-200 ease-out">
               <div className="flex flex-wrap gap-2">
                 {tabs.map((tab, index) => {
                   const Icon = tab.icon;
@@ -143,7 +144,7 @@ function PersonalInfo() {
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.98, y: 0 }}
-                      className={`btn flex items-center gap-2 transition-all duration-200 ${
+                      className={`btn flex bg-base-100/95 backdrop-blur-sm items-center gap-2 transition-all duration-200 ${
                         isActive
                           ? "btn-active bg-primary text-primary-content border-primary"
                           : "btn-outline hover:bg-primary hover:text-primary-content hover:border-primary"
@@ -151,7 +152,7 @@ function PersonalInfo() {
                       onClick={() => scrollToSection(tab.ref, tab.id)}
                     >
                       <Icon size={16} />
-                      <span className="hidden sm:inline">{tab.label}</span>
+                      <span className="inline-flex">{tab.label}</span>
                     </motion.button>
                   );
                 })}

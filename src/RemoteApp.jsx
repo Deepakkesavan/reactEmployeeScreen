@@ -4,11 +4,13 @@ import App from "./App";
 import "./index.css";
 
 const RemoteApp = () => (
-  <StrictMode>
-    <BrowserRouter basename="ems">
-      <App />
-    </BrowserRouter>
-  </StrictMode>
+  <div id="ems-root">
+    <StrictMode>
+      <BrowserRouter basename="ems">
+        <App />
+      </BrowserRouter>
+    </StrictMode>
+  </div>
 );
 
 export default RemoteApp;

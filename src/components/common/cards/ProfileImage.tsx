@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { User, Loader2 } from "lucide-react";
+import { apiSubRoutes } from "@/common/DataService/Constants";
+import { runtimeConfig } from "@/config/runtime-config";
 
 interface ProfileImageProps {
   empId: string;
@@ -25,7 +27,7 @@ export default function ProfileImage({
   className = "",
   fallbackClassName = "",
   size = "md",
-  onImageStatusChange
+  onImageStatusChange,
 }: ProfileImageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -38,31 +40,29 @@ export default function ProfileImage({
         onImageStatusChange?.(false);
         return;
       }
-  
+
       try {
         setLoading(true);
         setError(false);
-  
-        const response = await fetch(
-          "https://people-dev.clarium.tech/emsapi/api/Employee/Getprofile",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ empId, profile: null }),
-          }
-        );
-  
+
+        const baseUrl = runtimeConfig.backendUrl;
+        const response = await fetch(`${baseUrl}/${apiSubRoutes.GET_PROFILE}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ empId, profile: null }),
+        });
+
         if (!response.ok) throw new Error();
-  
+
         const blob = await response.blob();
-  
+
         if (blob.size === 0) {
           setError(true);
           onImageStatusChange?.(false);
           return;
         }
-  
+
         const url = URL.createObjectURL(blob);
         setImageUrl(url);
         onImageStatusChange?.(true); // ✅ image exists
@@ -73,16 +73,15 @@ export default function ProfileImage({
         setLoading(false);
       }
     };
-  
+
     fetchProfileImage();
-  
+
     return () => {
       if (imageUrl?.startsWith("blob:")) {
         URL.revokeObjectURL(imageUrl);
       }
     };
   }, [empId]);
-  
 
   const baseClasses = `${sizeClasses[size]} rounded-full ${className}`;
 
