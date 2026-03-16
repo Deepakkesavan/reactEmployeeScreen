@@ -6,9 +6,9 @@ import "./index.css";
 const RemoteApp = () => (
   <div id="ems-root">
     <StrictMode>
-      <BrowserRouter basename="ems">
+      {/* <BrowserRouter basename="ems"> */}
         <App />
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     </StrictMode>
   </div>
 );

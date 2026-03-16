@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { User, Loader2 } from "lucide-react";
 import { apiSubRoutes } from "@/common/DataService/Constants";
-import { runtimeConfig } from "@/config/runtime-config";
+import { AccessToken } from "@/common/AccessToken";
+// import { runtimeConfig } from "@/config/runtime-config";
 
 interface ProfileImageProps {
   empId: string;
@@ -45,11 +46,15 @@ export default function ProfileImage({
         setLoading(true);
         setError(false);
 
-        const baseUrl = runtimeConfig.backendUrl;
+        const baseUrl = "https://workforce-dev.clarium.tech/emsapi/api";
+        const accessToken = AccessToken;
         const response = await fetch(`${baseUrl}/${apiSubRoutes.GET_PROFILE}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            "Authorization" : `Bearer ${accessToken}`
+           },
           credentials: "include",
+
           body: JSON.stringify({ empId, profile: null }),
         });
 

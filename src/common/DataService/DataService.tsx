@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import { type DataServiceProps } from "@/common/DataService/interface/DataServiceInterface";
-import { runtimeConfig } from "@/config/runtime-config";
+import { AccessToken } from "@/common/AccessToken"
+// import { runtimeConfig } from "@/config/runtime-config";
 
 const api = axios.create({
-  baseURL: runtimeConfig.backendUrl,
+  baseURL: "https://workforce-dev.clarium.tech/emsapi/api",
   withCredentials: true,
 });
 api.interceptors.request.use(
   (req) => {
-    const accessToken = runtimeConfig.dummyJwtAccessToken;
+    const accessToken = AccessToken;
     if (accessToken) {
       req.headers.Authorization = `Bearer ${accessToken}`;
     }
