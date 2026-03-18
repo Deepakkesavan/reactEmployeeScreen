@@ -1,7 +1,7 @@
 export const apiSubRoutes = {
-  GET_PROFILE: "Employee/GetProfile",
-  UPLOAD_PROFILE: "Employee/UploadProfile",
-  GET_EMPLOYEE_BY_ID: "Employee/GetEmployeeById",
-  GET_ORGCHART_MYTEAM:"OrgChart/GetOrgChartMyTeam",
-  GET_CURRENTUSER:"OrgChart/GetCurrentUser"
+  GET_PROFILE: "api/Employee/GetProfile",
+  UPLOAD_PROFILE: "api/Employee/UploadProfile",
+  GET_EMPLOYEE_BY_ID: "api/Employee/GetEmployeeById",
+  GET_ORGCHART_MYTEAM: "api/OrgChart/GetOrgChartMyTeam",
+  GET_CURRENTUSER: "api/OrgChart/GetCurrentUser",
 };

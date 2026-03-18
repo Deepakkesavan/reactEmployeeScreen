@@ -1,7 +1,6 @@
 // import { OrgNode } from "./OrgNode";
 // import { useEffect } from "react";
 
-
 // function findNodeAndParent(root, empId, parent = null) {
 //   if (!root) return null;
 
@@ -25,7 +24,7 @@
 //       orgTree,
 //       currentEmpId,
 //     });
-  
+
 //   }, [orgTree, currentEmpId]);
 //   if (!orgTree || !currentEmpId) {
 //     return (
@@ -207,7 +206,7 @@ export const OrgBlockView: React.FC<OrgBlockViewProps> = ({
   const { node: you, parent: manager } = result;
 
   const siblings =
-    manager?.children?.filter(emp => emp.empId !== currentEmpId) || [];
+    manager?.children?.filter((emp) => emp.empId !== currentEmpId) || [];
 
   const children = you.children || [];
 
@@ -225,7 +224,7 @@ export const OrgBlockView: React.FC<OrgBlockViewProps> = ({
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {items.map(emp => (
+          {items.map((emp) => (
             <OrgNode
               key={emp.empId}
               name={emp.name}
@@ -239,7 +238,7 @@ export const OrgBlockView: React.FC<OrgBlockViewProps> = ({
   };
 
   return (
-    <div className="p-6 bg-org-tree-bg rounded-2xl border border-border">
+    <div className="p-6 bg-org-tree-bg rounded-2xl border border-border flex flex-col items-center">
       {/* Manager */}
       {manager && (
         <div className="mb-8">
@@ -259,11 +258,7 @@ export const OrgBlockView: React.FC<OrgBlockViewProps> = ({
         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
           You
         </h3>
-        <OrgNode
-          name={you.name}
-          designation={you.designation}
-          type="you"
-        />
+        <OrgNode name={you.name} designation={you.designation} type="you" />
       </div>
 
       {/* Peers */}

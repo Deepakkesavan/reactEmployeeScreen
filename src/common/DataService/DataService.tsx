@@ -2,16 +2,41 @@ import axios from "axios";
 import { useEffect, useRef } from "react";
 import { type DataServiceProps } from "@/common/DataService/interface/DataServiceInterface";
 // import { runtimeConfig } from "@/config/runtime-config";
+// import { getBackendUrl } from "@/utils/getBackendUrl";
 
-const api = axios.create({
-  baseURL: "https://workforce-dev.clarium.tech",
-  withCredentials: true,
-});
+const api = axios.create();
+
 api.interceptors.request.use(
   (req) => {
-    const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWVwYWtrQGNsYXJpdW0udGVjaCIsImVtcElkIjoxMjI1LCJkZXNpZ25hdGlvbiI6IlRyYWluZWUgU29mdHdhcmUgRW5naW5lZXIiLCJpYXQiOjE3NzM4MTY3MTYsImV4cCI6MTc3MzgyMDMxNn0.wOlsb5KglIe0IGWqnTzZSasqD8ZwfevtKfY2O_AbEegtr9qGWd89dtM6nR1pC6_ZoSOrUwaOAHg-hy4q-5UftQ";
-    if (accessToken) {
-      req.headers.Authorization = `Bearer ${accessToken}`;
+
+    const token =
+      (window as any).__JWT_TOKEN__ || sessionStorage.getItem("jwtToken");
+    console.log("Attaching token to request:", token);
+    if (token) {
+      req.headers.Authorization = `Bearer ${token}`;
+      req.withCredentials = false;
+    } else {
+      req.withCredentials = true;
+    }
+  
+
+    // 3. Set dynamic baseURL from shared config if not already set
+    if (!req.baseURL) {
+      const stored = sessionStorage.getItem("module-config");
+      const config =
+        (window as any).__APP_CONFIG__ || (stored ? JSON.parse(stored) : null);
+
+      if (config) {
+        const mainModule = config.modules?.find(
+          (m: any) => m.key === "workforce"
+        );
+        const subModule = mainModule?.subModules?.find(
+          (s: any) => s.key === "ems"
+        );
+        if (subModule?.url) {
+          req.baseURL = subModule.url;
+        }
+      }
     }
     return req;
   },
@@ -23,8 +48,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       // // Clear user data
-      // localStorage.removeItem("jwtToken");
-      // localStorage.removeItem("user");
+      // sessionStorage.removeItem("jwtToken");
+      // sessionStorage.removeItem("user");
       // Redirect to login
       // window.location.href = "http://localhost:5050";
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { User, Loader2 } from "lucide-react";
 import { apiSubRoutes } from "@/common/DataService/Constants";
-import { runtimeConfig } from "@/config/runtime-config";
+import { getBackendUrl } from "@/utils/getBackendUrl";
 
 interface ProfileImageProps {
   empId: string;
@@ -45,7 +45,8 @@ export default function ProfileImage({
         setLoading(true);
         setError(false);
 
-        const baseUrl = runtimeConfig.backendUrl;
+        const baseUrl = getBackendUrl("workforce", "ems");
+        console.log("Fetching profile image from:",baseUrl);
         const response = await fetch(`${baseUrl}/${apiSubRoutes.GET_PROFILE}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

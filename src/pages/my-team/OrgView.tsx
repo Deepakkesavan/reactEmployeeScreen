@@ -4,7 +4,6 @@
 // import DataService from "@/common/DataService/DataService";
 // import { mapBackendToFrontendOrgChart, type BackendOrgChartTeamMember } from "./interfaces/MyTeam.interface";
 
-
 // function OrgView() {
 //   const [viewMode, setViewMode] = useState("tree");
 //   const [employeeList, setEmployeeList] = useState<BackendOrgChartTeamMember | null>(null);
@@ -65,7 +64,6 @@
 //             setEnableDataFetch(false);
 //           }}
 //       />
-
 
 //       {viewMode === "tree" ? (
 //         <OrgTree
@@ -209,13 +207,11 @@
 
 // export default OrgView;
 
-import {useState } from "react";
+import { useEffect, useState } from "react";
 import OrgTree from "./OrgTree";
 import OrgBlockView from "./OrgBlockView";
 import DataService from "@/common/DataService/DataService";
-import type {
-  BackendOrgChartTeamMember,
-} from "./interfaces/MyTeam.interface";
+import type { BackendOrgChartTeamMember } from "./interfaces/MyTeam.interface";
 import { apiSubRoutes } from "@/common/DataService/Constants";
 
 // Type for View Mode
@@ -223,10 +219,29 @@ type ViewMode = "tree" | "block";
 
 const OrgView: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>("tree");
-  const [employees, setEmployees] = useState<BackendOrgChartTeamMember | null>(null);
+  const [employees, setEmployees] = useState<BackendOrgChartTeamMember | null>(
+    null
+  );
   const [currentEmpId, setCurrentEmpId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [enableDataFetch, setEnableDataFetch] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      if (window.innerWidth < 768) {
+        setIsMobile(true);
+        setViewMode("block");
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   // Handler for current user data
   const handleCurrentUserSuccess = (data: any) => {
@@ -247,44 +262,53 @@ const OrgView: React.FC = () => {
   return (
     <div className="w-full">
       {/* ===== VIEW TOGGLE ===== */}
-      <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
-        <div className="flex gap-4 items-center">
-          <span className="text-lg font-semibold text-gray-700">View Mode:</span>
-          
-          {/* Toggle Switch */}
-          <label className="inline-flex items-center cursor-pointer">
-            <span
-              className={`mr-2 text-sm text-gray-600 ${viewMode === "tree" ? "" : "font-semibold"}`}
-            >
-              Tree View
+      {!isMobile && (
+        <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+          <div className="flex gap-4 items-center">
+            <span className="text-lg font-semibold text-gray-700">
+              View Mode:
             </span>
 
             {/* Toggle Switch */}
-            <div className="relative">
-              <input
-                type="checkbox"
-                className="sr-only"
-                checked={viewMode === "block"}
-                onChange={() => setViewMode(viewMode === "tree" ? "block" : "tree")}
-              />
-              <div className="w-12 h-6 bg-gray-300 rounded-full peer transition-all duration-300">
-                <div
-                  className={`w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 transform ${
-                    viewMode === "block" ? "translate-x-6 bg-green-500" : ""
-                  }`}
-                ></div>
+            <label className="inline-flex items-center cursor-pointer">
+              <span
+                className={`mr-2 text-sm text-gray-600 ${
+                  viewMode === "tree" ? "" : "font-semibold"
+                }`}
+              >
+                Tree View
+              </span>
+
+              {/* Toggle Switch */}
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={viewMode === "block"}
+                  onChange={() =>
+                    setViewMode(viewMode === "tree" ? "block" : "tree")
+                  }
+                />
+                <div className="w-12 h-6 bg-gray-300 rounded-full peer transition-all duration-300">
+                  <div
+                    className={`w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 transform ${
+                      viewMode === "block" ? "translate-x-6 bg-green-500" : ""
+                    }`}
+                  ></div>
+                </div>
               </div>
-            </div>
 
-            <span
-              className={`ml-2 text-sm text-gray-600 ${viewMode === "block" ? "font-semibold" : ""}`}
-            >
-              Block View
-            </span>
-          </label>
+              <span
+                className={`ml-2 text-sm text-gray-600 ${
+                  viewMode === "block" ? "font-semibold" : ""
+                }`}
+              >
+                Block View
+              </span>
+            </label>
+          </div>
         </div>
-        </div>
-
+      )}
       {/* ===== DATA FETCH ===== */}
       <DataService
         enable={enableDataFetch}
@@ -313,13 +337,15 @@ const OrgView: React.FC = () => {
 
       {/* ===== LOADING ===== */}
       {!error && (!employees || !currentEmpId) && (
-        <div className="text-center py-12 text-slate-500">Loading organization data...</div>
+        <div className="text-center py-12 text-slate-500">
+          Loading organization data...
+        </div>
       )}
 
       {/* ===== CONTENT ===== */}
       {employees && currentEmpId && (
         <>
-          {viewMode === "tree" ? (
+          {!isMobile && viewMode === "tree" ? (
             <OrgTree employees={employees} loggedInUserId={currentEmpId} />
           ) : (
             <OrgBlockView orgTree={employees} currentEmpId={currentEmpId} />

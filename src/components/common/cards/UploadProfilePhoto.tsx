@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Camera, Upload, Loader2, CheckCircle, XCircle } from "lucide-react";
 import ProfileImage from "@/components/common/cards/ProfileImage";
 import { apiSubRoutes } from "@/common/DataService/Constants";
-import { runtimeConfig } from "@/config/runtime-config";
+import { getBackendUrl } from "@/utils/getBackendUrl";
 
 interface UploadProfilePhotoProps {
   empId: string;
@@ -64,7 +64,7 @@ export default function UploadProfilePhoto({
       formData.append("empId", empId);
       formData.append("profile", file);
 
-      const baseUrl = runtimeConfig.backendUrl;
+      const baseUrl = getBackendUrl("workforce", "ems");
       const response = await fetch(
         `${baseUrl}/${apiSubRoutes.UPLOAD_PROFILE}`,
         {

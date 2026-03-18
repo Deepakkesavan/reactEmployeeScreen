@@ -33,7 +33,7 @@ const themes = [
 
 function ThemeSwitcher() {
   const [theme, setTheme] = useState<string>(
-    localStorage.getItem("theme") || "corporate"
+    sessionStorage.getItem("theme") || "corporate"
   );
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -59,7 +59,7 @@ function ThemeSwitcher() {
       "--hover-text-color",
       isDarkTheme ? "white" : "black"
     );
-    localStorage.setItem("theme", theme);
+    sessionStorage.setItem("theme", theme);
   }, [theme]);
 
   useEffect(() => {
