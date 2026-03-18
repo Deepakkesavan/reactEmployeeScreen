@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import { type DataServiceProps } from "@/common/DataService/interface/DataServiceInterface";
-import { runtimeConfig } from "@/config/runtime-config";
+// import { runtimeConfig } from "@/config/runtime-config";
 
 const api = axios.create({
-  baseURL: runtimeConfig.backendUrl,
+  baseURL: "https://workforce-dev.clarium.tech",
   withCredentials: true,
 });
 api.interceptors.request.use(
   (req) => {
-    const accessToken = runtimeConfig.dummyJwtAccessToken;
+    const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWVwYWtrQGNsYXJpdW0udGVjaCIsImVtcElkIjoxMjI1LCJkZXNpZ25hdGlvbiI6IlRyYWluZWUgU29mdHdhcmUgRW5naW5lZXIiLCJpYXQiOjE3NzM4MTY3MTYsImV4cCI6MTc3MzgyMDMxNn0.wOlsb5KglIe0IGWqnTzZSasqD8ZwfevtKfY2O_AbEegtr9qGWd89dtM6nR1pC6_ZoSOrUwaOAHg-hy4q-5UftQ";
     if (accessToken) {
       req.headers.Authorization = `Bearer ${accessToken}`;
     }
